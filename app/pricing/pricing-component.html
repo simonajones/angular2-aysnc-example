@@ -1,0 +1,27 @@
+<h2>Update a stock price</h2>
+<form (ngSubmit)="onSubmit()" #priceForm="ngForm">
+
+  <div class="form-group">
+    <label for="code">Stock Code</label>
+    <input type="text" class="form-control" required
+      [(ngModel)]="tick.code"
+        ngControl="code"  #code="ngForm" >
+    <div [hidden]="code.valid" class="alert alert-danger">
+      Code is required
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="price">Stock Price</label>
+    <input type="text" class="form-control" required
+      [(ngModel)]="tick.price"
+        ngControl="price"  #price="ngForm" >
+    <div [hidden]="price.valid" class="alert alert-danger">
+      Price is required
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-default"
+          [disabled]="!priceForm.form.valid">Submit</button>
+</form>
+<p>{{message}}
