@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 
-import {StockItem} from '../model/stock-model';
+import {StockItem, PriceUpdate, PriceUpdatedObserver} from '../model/stock-model';
 import {PricingService} from '../pricing/price-publisher-service';
 
 @Component({
@@ -8,21 +8,17 @@ import {PricingService} from '../pricing/price-publisher-service';
   inputs: ['stock'],
   templateUrl: 'app/stocks/stock-item.component.html'
 })
-export class StockItemComponent {
+export class StockItemComponent implements PriceUpdatedObserver {
   public stock: StockItem;
 
   constructor(private _pricingService: PricingService) {
-    this._pricingService.subscribe(this.priceUpdatedEvent);
+    this._pricingService.addPriceUpdatedObserver(this);
   }
 
-  priceUpdatedEvent(newPrice) {
-    /*
-     * This doesn't work because 'this' is a Subscription
-     * rather than the Component. Help!
-     */
-    //if (newPrice.code === this.stock.code) {
-    //  this.stock.price = newPrice.price;
-    //}
+  priceUpdate(newPrice: PriceUpdate) {
+    if (newPrice.code === this.stock.code) {
+      this.stock.price = newPrice.price;
+    }
   }
 
 }

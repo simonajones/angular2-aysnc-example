@@ -7,8 +7,14 @@ import {PricingService} from '../pricing/price-publisher-service';
 @Injectable()
 export class StockItemService {
 
+  private count: number = 0;
+
   constructor(private _subcriber: PricingService) {
-    this._subcriber.subscribe(this.priceUpdatedEvent);
+    this._subcriber.subscribe(this.priceUpdatedEvent.bind(this));
+  }
+
+  getPriceUpdateCount() {
+    return this.count;
   }
 
   getStocks() {
@@ -16,10 +22,7 @@ export class StockItemService {
   }
 
   priceUpdatedEvent(newPrice: PriceUpdate) {
-    setTimeout(() => {
-      // Update the relavent StockItem after a delay.
-      STOCKS.find( stock => stock.code === newPrice.code).price = newPrice.price;
-    }, 2000);
+    this.count++;
   }
 
 }

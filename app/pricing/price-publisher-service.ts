@@ -1,7 +1,8 @@
 import {Injectable} from 'angular2/core';
 
 import {Subject} from 'rxjs/Rx';
-import {PriceUpdate} from '../model/stock-model';
+import {Observer} from 'rxjs/Observer';
+import {PriceUpdate, PriceUpdatedObserver} from '../model/stock-model';
 
 @Injectable()
 export class PricingService {
@@ -14,6 +15,11 @@ export class PricingService {
 
   subscribe(handler: ((newPrice: PriceUpdate) => void)) {
     this._newPrices.subscribe(handler);
+  }
+
+  addPriceUpdatedObserver(target: PriceUpdatedObserver) {
+    target['next'] = target.priceUpdate;
+    this._newPrices.subscribe(target);
   }
 
 }

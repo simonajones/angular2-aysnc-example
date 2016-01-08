@@ -6,10 +6,11 @@ This demo has 2 parts: A simple Component to represent stocks (Google, IBM and M
 Designed to allow me to learn:
  * Angular2 (beta 0) with TypeScript
  * RxJS
- * A Pub/Sub interface (The pub/sub interface is intended to show how publishers can be independent from subscribers and vice-versa.)
+ * A Pub/Sub interface
+
+There are 2 key methods, both on the PricingService: The first, **publishPriceChange** allows price change messages (of type **PriceUpdate**) to be published. The second is the **subscribe** method. This allows interested parties to be informed when new messages have been published. The PricingComponent does the publishing and the StockItemService is a subscriber. The pub/sub interface is intended to show how publishers can be independent from subscribers and vice-versa. In addition the *types* used by the publishers and subscribers are application types. The intention is to not allow the implementation types to leak out into the application.
 
 Issues
 ------
- - I'm not the delay correctly demonstrates the async behaviour of the message bus. It might just be showing how setTimeout works.
- - There are 4 subscriptions established. One for the StockItemService and 1 for each of the StockItemComponents. The StockItemService updates the prices. I might want the StockItemComponent to update the price, but I haven't worked out how to fix the 'this' problem in the subscription callback. (See comments in stock-item.component.ts)
- 
+ - I'm not sure the (setTimeout) delay correctly demonstrates the async behaviour of the message bus. It might just be showing how setTimeout works.
+ - I'm not sure if/how to replace the reference to the bound callback **this.priceUpdatedEvent.bind(this)** with a 'fat arrow'.

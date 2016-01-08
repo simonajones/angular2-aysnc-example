@@ -15,3 +15,10 @@ export interface PriceUpdate {
   price: number;
   code: string;
 }
+
+export interface PriceUpdatedObserver {
+    priceUpdate?: (newPrice: PriceUpdate) => void;
+    error?: (err?: any) => void;
+    complete?: () => void;
+    isUnsubscribed?: boolean;
+}
